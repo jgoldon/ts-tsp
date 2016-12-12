@@ -2,90 +2,88 @@
 #include "Map.h"
 
 
-string DIMESION_PROPERTY = "DIMENSION";
-string BEST_PROPERTY = "BEST";
-string START_VERTEX_PAGE = "NODE_COORD_SECTION";
 
-double sqr(double x) 
+Map::Map(string s)
 {
-	return x*x;
+	file.open(s);
+	if (!file.good())
+		throw new exception("File not found");
 }
 
-double Map::getDistance(int vertexA, int vertexB) 
+void Map::Load()
 {
-	double distance = sqrt(
-		sqr(this->coordinate[vertexA][0] - this->coordinate[vertexB][0])
-		+ sqr(this->coordinate[vertexA][1] - this->coordinate[vertexB][1])
-	);
-	return distance;
-}
+	string temp;
 
-Map::Map(string filePath) 
-{
-	string line;
-	cout << endl;
-	cout << "File:  " << filePath << endl;
-	ifstream dataFile;
-	dataFile.open(filePath.c_str());
-	if (dataFile.is_open()) 
+	while (true)
 	{
-		bool vertexDataRegion = false;
-		while (dataFile.good()) 
+		getline(file, temp, ':');
+
+
+		if (temp.find("NAME") != string::npos)
 		{
-			getline(dataFile, line);
-
-			if (vertexDataRegion) 
-			{
-				int vertexId;
-				double posX;
-				double posY;
-				sscanf(line.c_str(), "%d %lf %lf", &vertexId, &posX, &posY);
-				vertexId--; // we store vertex from 0
-
-				this->coordinate[vertexId][0] = posX;
-				this->coordinate[vertexId][1] = posY;
-			}
-
-			if (line.find(DIMESION_PROPERTY) == 0) 
-			{
-				unsigned int index = 0;
-				for (; index < line.size(); index++) {
-					if (line[index] >= '0' && line[index] <= '9') break;
-				}
-				this->numVertex = atoi(line.substr(index, 100).c_str());
-				cout << "Dimension: " << this->numVertex << endl;
-
-				this->coordinate = new double*[this->numVertex];
-				for (int i = 0; i < this->numVertex; i++) 
-				{
-					this->coordinate[i] = new double[2];
-				}
-			}
-
-			if (line.find(BEST_PROPERTY) == 0) 
-			{
-				int bestValue;
-				unsigned int index = 0;
-				for (; index < line.size(); index++) {
-					if (line[index] >= '0' && line[index] <= '9') break;
-				}
-				bestValue = atoi(line.substr(index, 100).c_str());
-				cout << "Cost: " << bestValue << endl;
-			}
-
-			if (line.find(START_VERTEX_PAGE) == 0) {
-				vertexDataRegion = true;
-			}
+			getline(file, Name);
 		}
-		dataFile.close();
+		if (temp.find("TYPE") != string::npos)
+		{
+			getline(file, Type);
+		}
+		if (temp.find("COMMENT") != string::npos)
+		{
+			getline(file, Comment);
+		}
+		if (temp.find("DIMENSION") != string::npos)
+		{
+			file >> Dimension;
+		}
+		if (temp.find("EDGE_WEIGHT_TYPE") != string::npos)
+		{
+			getline(file, EdgeWeightType);
+			getline(file, temp);
+			break;
+		}
+	}
+
+	for (auto i = 0; i < Dimension; i++)
+	{
+		int rowNumber;
+		float x;
+		float y;
+
+		file >> rowNumber >> x >> y;
+
+		MapX.push_back(x);
+		MapY.push_back(y);
 	}
 }
 
-void Map::free()
-{
-	for (int i = 0; i < this->numVertex; i++)
-	{
-		delete[] this->coordinate[i];
+void split(const std::string &s, char delim, std::vector<std::string> &elems) {
+	std::stringstream ss;
+	ss.str(s);
+	std::string item;
+	while (std::getline(ss, item, delim)) {
+		elems.push_back(item);
 	}
-	delete[] this->coordinate;
+}
+
+float Map::CalculateDistance(int firstCityIndex, int secondCityIndex)
+{
+	float firstCityX = this->MapX[firstCityIndex];
+	float firstCityY = this->MapY[firstCityIndex];
+
+	float secondCityX = this->MapX[secondCityIndex];
+	float secondCityY = this->MapY[secondCityIndex];
+
+	float x = firstCityX - secondCityX;
+	float y = firstCityY - secondCityY;
+
+	float dist = pow(x, 2) + pow(y, 2);
+	dist = round(sqrt(dist));
+	//cout << firstCityX << " " << firstCityIndex<< " " << firstCityY << " " << firstCityIndex << " " << secondCityX << " " << secondCityIndex<< " " << secondCityY << " " << secondCityIndex << " \n";
+	return dist;
+}
+
+
+Map::~Map()
+{
+	file.close();
 }

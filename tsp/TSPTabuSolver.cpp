@@ -8,24 +8,29 @@
 #define LONG_TERM_LENGTH 100
 #define TIME_TRY 500
 
-TSPTabuSolver::TSPTabuSolver(string filePath) {
+TSPTabuSolver::TSPTabuSolver(string filePath) 
+{
 	map = new Map(filePath);
+	map->Load();
 	s = new Solution(map);
-	bestSolverScore = std::numeric_limits<double>::max();
+	bestSolverScore = (std::numeric_limits<double>::max)();
 
-	tabu_list = new int*[map->numVertex];
-	tabu_f_list = new int*[map->numVertex];
-	for (int i = 0; i < map->numVertex; i++) {
-		tabu_f_list[i] = new int[map->numVertex];
-		tabu_list[i] = new int[map->numVertex];
+	//double asd = (std::numeric_limits<double>::max)();
+
+	tabu_list = new int*[map->Dimension];
+	tabu_f_list = new int*[map->Dimension];
+	for (int i = 0; i < map->Dimension; i++) 
+	{
+		tabu_f_list[i] = new int[map->Dimension];
+		tabu_list[i] = new int[map->Dimension];
 	}
 
 	resetTabuList();
 }
 
 void TSPTabuSolver::resetTabuList() {
-	for (int i = 0; i < map->numVertex; i++) {
-		for (int j = 0; j < map->numVertex; j++) {
+	for (int i = 0; i < map->Dimension; i++) {
+		for (int j = 0; j < map->Dimension; j++) {
 			tabu_list[i][j] = 0;
 			tabu_f_list[i][j] = 0;
 		}
@@ -44,7 +49,7 @@ void TSPTabuSolver::solve(int numCandidate) {
 		resetTabuList();
 		//cout << "Init Score : " << s->getScore() << endl;
 		int countTime = 0;
-		bestSolverScore = std::numeric_limits<double>::max();
+		bestSolverScore = (std::numeric_limits<double>::max)();
 		for (int i = 0; i < NUM_INTERATION; i++) {
 			s = this->getBestNearbySolution(i);
 			double score = s->getScore();
@@ -53,7 +58,7 @@ void TSPTabuSolver::solve(int numCandidate) {
 				countTime = 0;
 
 				if (bestSolverScore < bestSolutionScore) {
-					for (int j = 0; j < map->numVertex; j++) {
+					for (int j = 0; j < map->Dimension; j++) {
 						bestSolution.set(j, s->getV(j));
 					}
 					bestSolutionScore = bestSolverScore;
@@ -72,12 +77,13 @@ void TSPTabuSolver::solve(int numCandidate) {
 	bestSolution.printPath();
 }
 
-Solution* TSPTabuSolver::getBestNearbySolution(int it) {
-	double bestScore = std::numeric_limits<double>::max();;
+Solution* TSPTabuSolver::getBestNearbySolution(int it) 
+{
+	double bestScore = (std::numeric_limits<double>::max)();
 	int vertexA = 0;
 	int vertexB = 1;
-	for (int i = 0; i < map->numVertex; i++) {
-		for (int j = (i + 1); j < map->numVertex; j++) {
+	for (int i = 0; i < map->Dimension; i++) {
+		for (int j = (i + 1); j < map->Dimension; j++) {
 			//swap for new solution
 			s->swapSolve(i, j);
 			double currentScore = s->getScore();

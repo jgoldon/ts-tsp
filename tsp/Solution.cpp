@@ -2,20 +2,22 @@
 #include "Solution.h"
 
 
-Solution::Solution(Map* map) {
+Solution::Solution(Map* map) 
+{
 	this->map = map;
-	v = new int[map->numVertex];
+	v = new int[map->Dimension];
 	score = 0;
 	initSolution();
 }
 
-void Solution::initSolution() {
-	for (int i = 0; i < map->numVertex; i++) {
+void Solution::initSolution() 
+{
+	for (int i = 0; i < map->Dimension; i++) {
 		this->v[i] = i;
 	}
 	srand(time(NULL));
-	for (int i = (map->numVertex - 1); i >= 0; i--) {
-		int j = rand() % map->numVertex;
+	for (int i = (map->Dimension - 1); i >= 0; i--) {
+		int j = rand() % map->Dimension;
 		swap(this->v[i], this->v[j]);
 	}
 	computeScore();
@@ -23,15 +25,15 @@ void Solution::initSolution() {
 
 void Solution::computeScore() {
 	score = 0;
-	for (int i = 0; i < (map->numVertex - 1); i++) {
-		score += map->getDistance(this->v[i], this->v[i + 1]);
+	for (int i = 0; i < (map->Dimension - 1); i++) {
+		score += map->CalculateDistance(this->v[i], this->v[i + 1]);
 	}
-	score += map->getDistance(this->v[map->numVertex - 1], this->v[0]);
+	score += map->CalculateDistance(this->v[map->Dimension - 1], this->v[0]);
 }
 
 void Solution::printPath() {
 	cout << "Path: ";
-	for (int i = 0; i < map->numVertex; i++) {
+	for (int i = 0; i < map->Dimension; i++) {
 		cout << this->v[i] << " ";
 	}
 	cout << endl;

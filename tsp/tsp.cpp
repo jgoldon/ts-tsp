@@ -8,7 +8,7 @@
 
 int main()
 {
-	TSPTabuSolver solver2("tsp0.txt");
+	TSPTabuSolver solver2("berlin52.tsp");
 	solver2.solve(6);
 	TSPTabuSolver solver1("tsp1.txt");
 	solver1.solve(5);

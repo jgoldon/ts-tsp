@@ -14,5 +14,14 @@ using namespace std;
 #include <cmath>
 #include <fstream>
 #include <ctime>
+#include <vector>
 
+#include <math.h>
+#include <algorithm>
+#include <functional>
+#include <windows.h>
+#include <sstream>
+#include <iomanip>
+#include <limits>
+#include <cstddef>
 // TODO: reference additional headers your program requires here

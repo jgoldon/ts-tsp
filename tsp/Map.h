@@ -1,12 +1,21 @@
 #pragma once
 class Map
 {
+private:
+	ifstream file;
 public:
-	int numVertex;
-	double** coordinate;
-	Map(string file);
-	double getDistance(int, int);
-	string file;
-	void free();
+	vector<float> MapX;
+	vector<float> MapY;
+	string Name;
+	string Type;
+	string Comment;
+	int Dimension;
+	string EdgeWeightType;
+
+	Map(string s);
+	~Map();
+	float CalculateDistance(int firstCityIndex, int secondCityIndex);
+	void Load();
+	void Split(const std::string& s, char delim, std::vector<std::string>& elems);
 };
 

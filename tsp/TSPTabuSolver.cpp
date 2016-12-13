@@ -40,7 +40,8 @@ void TSPTabuSolver::resetTabuList() {
 /*
 numCandidate : times that solver run to get the best score
 */
-void TSPTabuSolver::solve(int numCandidate) {
+void TSPTabuSolver::solve(int numCandidate) 
+{
 	Solution bestSolution(map);
 	double bestSolutionScore = bestSolution.getScore();
 
@@ -53,6 +54,7 @@ void TSPTabuSolver::solve(int numCandidate) {
 		for (int i = 0; i < NUM_INTERATION; i++) {
 			s = this->getBestNearbySolution(i);
 			double score = s->getScore();
+			cout << "cos" << endl;
 			if (score < bestSolverScore) {
 				bestSolverScore = score;
 				countTime = 0;
@@ -64,7 +66,8 @@ void TSPTabuSolver::solve(int numCandidate) {
 					bestSolutionScore = bestSolverScore;
 				}
 			}
-			else {
+			else 
+			{
 				countTime++;
 				if (countTime > TIME_TRY) {
 					break;

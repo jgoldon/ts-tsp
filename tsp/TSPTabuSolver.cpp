@@ -39,9 +39,12 @@ TSPTabuSolver::TSPTabuSolver(string filePath)
 	resetTabuList();
 }
 
-void TSPTabuSolver::resetTabuList() {
-	for (int i = 0; i < map->Dimension; i++) {
-		for (int j = 0; j < map->Dimension; j++) {
+void TSPTabuSolver::resetTabuList() 
+{
+	for (int i = 0; i < map->Dimension; i++) 
+	{
+		for (int j = 0; j < map->Dimension; j++) 
+		{
 			tabu_list[i][j] = 0;
 			tabu_f_list[i][j] = 0;
 		}
@@ -56,22 +59,27 @@ void TSPTabuSolver::solve(int numCandidate)
 	Solution bestSolution(map);
 	double bestSolutionScore = bestSolution.getScore();
 
-	for (int loopCount = 0; loopCount < numCandidate; loopCount++) {
+	for (int loopCount = 0; loopCount < numCandidate; loopCount++) 
+	{
 		s->initSolution();
 		resetTabuList();
 		//cout << "Init Score : " << s->getScore() << endl;
 		int countTime = 0;
 		bestSolverScore = (std::numeric_limits<double>::max)();
-		for (int i = 0; i < NUM_INTERATION; i++) {
+		for (int i = 0; i < NUM_INTERATION; i++) 
+		{
 			s = this->getBestNearbySolution(i);
 			double score = s->getScore();
 			//cout << "cos" << endl;
-			if (score < bestSolverScore) {
+			if (score < bestSolverScore) 
+			{
 				bestSolverScore = score;
 				countTime = 0;
 
-				if (bestSolverScore < bestSolutionScore) {
-					for (int j = 0; j < map->Dimension; j++) {
+				if (bestSolverScore < bestSolutionScore) 
+				{
+					for (int j = 0; j < map->Dimension; j++) 
+					{
 						bestSolution.set(j, s->getV(j));
 					}
 					bestSolutionScore = bestSolverScore;
@@ -80,7 +88,8 @@ void TSPTabuSolver::solve(int numCandidate)
 			else 
 			{
 				countTime++;
-				if (countTime > TIME_TRY) {
+				if (countTime > TIME_TRY) 
+				{
 					break;
 				}
 			}
@@ -100,12 +109,14 @@ Solution* TSPTabuSolver::getBestNearbySolution(int it)
 	int vertexA = 0;
 	int vertexB = 1;
 	for (int i = 0; i < map->Dimension; i++) {
-		for (int j = (i + 1); j < map->Dimension; j++) {
+		for (int j = (i + 1); j < map->Dimension; j++) 
+		{
 			//swap for new solution
 			s->swapSolve(i, j);
 			double currentScore = s->getScore();
 			double penalScore = currentScore + PENAL_LONG_TERM * tabu_f_list[i][j];
-			if ((bestScore > penalScore && this->tabu_list[i][j] <= it) || currentScore < bestSolverScore) {
+			if ((bestScore > penalScore && this->tabu_list[i][j] <= it) || currentScore < bestSolverScore) 
+			{
 				vertexA = i;
 				vertexB = j;
 				bestScore = penalScore;

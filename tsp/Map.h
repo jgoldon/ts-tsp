@@ -16,6 +16,5 @@ public:
 	~Map();
 	float CalculateDistance(int firstCityIndex, int secondCityIndex);
 	void Load();
-	void Split(const std::string& s, char delim, std::vector<std::string>& elems);
 };
 

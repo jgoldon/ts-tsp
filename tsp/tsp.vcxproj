@@ -146,6 +146,8 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="aMap.h" />
+    <ClInclude Include="aSolution.h" />
+    <ClInclude Include="aTSPTabuSolver.h" />
     <ClInclude Include="map.h" />
     <ClInclude Include="Solution.h" />
     <ClInclude Include="stdafx.h" />
@@ -154,6 +156,8 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="aMap.cpp" />
+    <ClCompile Include="aSolution.cpp" />
+    <ClCompile Include="aTSPTabuSolver.cpp" />
     <ClCompile Include="map.cpp" />
     <ClCompile Include="Solution.cpp" />
     <ClCompile Include="stdafx.cpp">

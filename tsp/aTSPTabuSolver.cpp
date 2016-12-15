@@ -1,5 +1,5 @@
 #include "stdafx.h"
-#include "TSPTabuSolver.h"
+#include "aTSPTabuSolver.h"
 
 
 //#define TABU_LENGTH 5
@@ -7,41 +7,35 @@
 //#define PENAL_LONG_TERM 5
 //#define LONG_TERM_LENGTH 20
 //#define TIME_TRY 25
-//#define TABU_LENGTH 13
-//#define NUM_INTERATION 600
-//#define PENAL_LONG_TERM 8
-//#define LONG_TERM_LENGTH 20
-//#define TIME_TRY 30
+#define TABU_LENGTH 13
+#define NUM_INTERATION 600
+#define PENAL_LONG_TERM 8
+#define LONG_TERM_LENGTH 20
+#define TIME_TRY 30
 
-#define TABU_LENGTH 10
-#define NUM_INTERATION 3000
-#define PENAL_LONG_TERM 10
-#define LONG_TERM_LENGTH 100
-#define TIME_TRY 500
-
-TSPTabuSolver::TSPTabuSolver(string filePath) 
+aTSPTabuSolver::aTSPTabuSolver(string filePath)
 {
-	map = new Map(filePath);
-	map->Load();
-	s = new Solution(map);
+	amap = new aMap(filePath);
+	amap->Load();
+	s = new aSolution(amap);
 	bestSolverScore = (std::numeric_limits<double>::max)();
 
 	//double asd = (std::numeric_limits<double>::max)();
 
-	tabu_list = new int*[map->Dimension];
-	tabu_f_list = new int*[map->Dimension];
-	for (int i = 0; i < map->Dimension; i++) 
+	tabu_list = new int*[amap->Dimension];
+	tabu_f_list = new int*[amap->Dimension];
+	for (int i = 0; i < amap->Dimension; i++)
 	{
-		tabu_f_list[i] = new int[map->Dimension];
-		tabu_list[i] = new int[map->Dimension];
+		tabu_f_list[i] = new int[amap->Dimension];
+		tabu_list[i] = new int[amap->Dimension];
 	}
 
 	resetTabuList();
 }
 
-void TSPTabuSolver::resetTabuList() {
-	for (int i = 0; i < map->Dimension; i++) {
-		for (int j = 0; j < map->Dimension; j++) {
+void aTSPTabuSolver::resetTabuList() {
+	for (int i = 0; i < amap->Dimension; i++) {
+		for (int j = 0; j < amap->Dimension; j++) {
 			tabu_list[i][j] = 0;
 			tabu_f_list[i][j] = 0;
 		}
@@ -51,9 +45,9 @@ void TSPTabuSolver::resetTabuList() {
 /*
 numCandidate : times that solver run to get the best score
 */
-void TSPTabuSolver::solve(int numCandidate) 
+void aTSPTabuSolver::solve(int numCandidate)
 {
-	Solution bestSolution(map);
+	aSolution bestSolution(amap);
 	double bestSolutionScore = bestSolution.getScore();
 
 	for (int loopCount = 0; loopCount < numCandidate; loopCount++) {
@@ -71,13 +65,13 @@ void TSPTabuSolver::solve(int numCandidate)
 				countTime = 0;
 
 				if (bestSolverScore < bestSolutionScore) {
-					for (int j = 0; j < map->Dimension; j++) {
+					for (int j = 0; j < amap->Dimension; j++) {
 						bestSolution.set(j, s->getV(j));
 					}
 					bestSolutionScore = bestSolverScore;
 				}
 			}
-			else 
+			else
 			{
 				countTime++;
 				if (countTime > TIME_TRY) {
@@ -88,19 +82,19 @@ void TSPTabuSolver::solve(int numCandidate)
 
 	}
 	cout << "Best score : " << bestSolutionScore << endl;
-	bestSolution.printPath();
+	//bestSolution.printPath();
 }
-double TSPTabuSolver::getBSS()
+double aTSPTabuSolver::getBSS()
 {
 	return this->bestSolverScore;
 }
-Solution* TSPTabuSolver::getBestNearbySolution(int it) 
+aSolution* aTSPTabuSolver::getBestNearbySolution(int it)
 {
 	double bestScore = (std::numeric_limits<double>::max)();
 	int vertexA = 0;
 	int vertexB = 1;
-	for (int i = 0; i < map->Dimension; i++) {
-		for (int j = (i + 1); j < map->Dimension; j++) {
+	for (int i = 0; i < amap->Dimension; i++) {
+		for (int j = (i + 1); j < amap->Dimension; j++) {
 			//swap for new solution
 			s->swapSolve(i, j);
 			double currentScore = s->getScore();

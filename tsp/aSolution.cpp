@@ -12,50 +12,61 @@ aSolution::aSolution(aMap* amap)
 
 void aSolution::initSolution()
 {
-	for (int i = 0; i < amap->Dimension; i++) {
+	for (int i = 0; i < amap->Dimension; i++) 
+	{
 		this->v[i] = i;
 	}
 	srand(time(NULL));
-	for (int i = (amap->Dimension - 1); i >= 0; i--) {
+	for (int i = (amap->Dimension - 1); i >= 0; i--) 
+	{
 		int j = rand() % amap->Dimension;
 		swap(this->v[i], this->v[j]);
 	}
 	computeScore();
 }
 
-void aSolution::computeScore() {
+void aSolution::computeScore() 
+{
 	score = 0;
-	for (int i = 0; i < (amap->Dimension - 1); i++) {
+	for (int i = 0; i < (amap->Dimension - 1); i++) 
+	{
 		score += amap->CalculateDistance(this->v[i], this->v[i + 1]);
 	}
 	score += amap->CalculateDistance(this->v[amap->Dimension - 1], this->v[0]);
 }
 
-void aSolution::printPath() {
+void aSolution::printPath() 
+{
 	cout << "Path: ";
-	for (int i = 0; i < amap->Dimension; i++) {
+	for (int i = 0; i < amap->Dimension; i++) 
+	{
 		cout << this->v[i] << " ";
 	}
 	cout << endl;
 }
 
-int aSolution::getV(int key) {
+int aSolution::getV(int key) 
+{
 	return this->v[key];
 }
-void aSolution::set(int key, int value) {
+void aSolution::set(int key, int value) 
+{
 	this->v[key] = value;
 }
 
-void aSolution::swapSolve(int i, int j) {
+void aSolution::swapSolve(int i, int j) 
+{
 	swap(this->v[i], this->v[j]);
 }
 
-double aSolution::getScore() {
+double aSolution::getScore() 
+{
 	computeScore();
 	return score;
 }
 
-void aSolution::free() {
+void aSolution::free() 
+{
 	delete[] this->v;
 }
 

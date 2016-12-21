@@ -2,22 +2,22 @@
 #include "TSPTabuSolver.h"
 
 
-//#define TABU_LENGTH 5
-//#define NUM_INTERATION 50
-//#define PENAL_LONG_TERM 5
-//#define LONG_TERM_LENGTH 20
-//#define TIME_TRY 25
+#define TABU_LENGTH 5
+#define NUM_INTERATION 50
+#define PENAL_LONG_TERM 5
+#define LONG_TERM_LENGTH 20
+#define TIME_TRY 25
 //#define TABU_LENGTH 13
 //#define NUM_INTERATION 600
 //#define PENAL_LONG_TERM 8
 //#define LONG_TERM_LENGTH 20
 //#define TIME_TRY 30
 
-#define TABU_LENGTH 10
-#define NUM_INTERATION 3000
-#define PENAL_LONG_TERM 10
-#define LONG_TERM_LENGTH 100
-#define TIME_TRY 500
+//#define TABU_LENGTH 10
+//#define NUM_INTERATION 3000
+//#define PENAL_LONG_TERM 10
+//#define LONG_TERM_LENGTH 100
+//#define TIME_TRY 500
 
 TSPTabuSolver::TSPTabuSolver(string filePath) 
 {

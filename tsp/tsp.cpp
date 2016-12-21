@@ -36,7 +36,7 @@ int main()
 	double costs = 0;
 	for (int i = 0; i < 1; i++)
 	{
-		TSPTabuSolver solver2("a280.tsp");
+		TSPTabuSolver solver2("pr2392.tsp");
 		start();
 		solver2.solve(1);
 		time += getTime();
